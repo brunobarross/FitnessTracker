@@ -1,8 +1,6 @@
 package com.altamiro.fitnesstracker
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -38,7 +36,7 @@ class ImcActivity : AppCompatActivity() {
 
             //mostrar dialog
             // class builder, uma classe construtora que provê funções, métodos, pra você criar uma propriedade que você queira
-            val dialog = AlertDialog.Builder(this)
+            AlertDialog.Builder(this)
                 .setTitle(getString(R.string.imc_response, result))
                 .setMessage(imcResponseId)
                 .setPositiveButton(
