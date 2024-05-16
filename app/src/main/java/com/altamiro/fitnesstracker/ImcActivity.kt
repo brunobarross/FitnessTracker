@@ -39,16 +39,39 @@ class ImcActivity : AppCompatActivity() {
             //mostrar dialog
             // class builder, uma classe construtora que provê funções, métodos, pra você criar uma propriedade que você queira
             val dialog = AlertDialog.Builder(this)
-            dialog.setTitle("Seu IMC é: ")
-            dialog.setMessage(R.string.calc)
-            dialog.setPositiveButton("texto botão", object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, witch: Int){
+                .setTitle(getString(R.string.imc_response, result))
+                .setMessage(imcResponseId)
+                .setPositiveButton(
+                    android.R.string.ok
+                ) { dialog, witch ->
 
+                    //aqui vai rodar depois do click
                 }
-            })
-            val  d = dialog.create()
-            d.show()
+                .create()
+                .show()
 
+//            //mostrar dialog
+//// class builder, uma classe construtora que provê funções, métodos, pra você criar uma propriedade que você queira
+//            val dialog = AlertDialog.Builder(this)
+//            val title = getString(R.string.imc_response, result)
+//            dialog.setTitle("Seu IMC é: $title")
+//            dialog.setMessage(imcResponseId)
+//// opção 1 - dá mais trabalho escrever
+//            dialog.setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
+//                override fun onClick(dialog: DialogInterface?, witch: Int) {
+//
+//                }
+//            })
+//
+//// opção 2 - utilizando lambda
+//            dialog.setPositiveButton(
+//                android.R.string.ok
+//            ) { dialog, witch ->
+//
+//
+//            }
+//            val d = dialog.create()
+//            d.show()
 
 
         }
