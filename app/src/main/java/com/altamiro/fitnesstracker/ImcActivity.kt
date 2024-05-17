@@ -1,6 +1,8 @@
 package com.altamiro.fitnesstracker
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -36,6 +38,27 @@ class ImcActivity : AppCompatActivity() {
 
             //mostrar dialog
             // class builder, uma classe construtora que provê funções, métodos, pra você criar uma propriedade que você queira
+            //            val dialog = AlertDialog.Builder(this)
+            //            val title = getString(R.string.imc_response, result)
+            //            dialog.setTitle("Seu IMC é: $title")
+            //            dialog.setMessage(imcResponseId)
+            //// opção 1 - dá mais trabalho escrever
+            //            dialog.setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
+            //                override fun onClick(dialog: DialogInterface?, witch: Int) {
+            //
+            //                }
+            //            })
+            //
+            //// opção 2 - utilizando lambda
+            //            dialog.setPositiveButton(
+            //                android.R.string.ok
+            //            ) { dialog, witch ->
+            //
+            //
+            //            }
+            //            val d = dialog.create()
+            //            d.show()
+
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.imc_response, result))
                 .setMessage(imcResponseId)
@@ -47,29 +70,15 @@ class ImcActivity : AppCompatActivity() {
                 }
                 .create()
                 .show()
+            // obter serviços para gerenciar teclado
+            //convertendo any em um outro tipo, aqui usamos o tipo InputMethodManager
+            //utilizamos o services para gerenciar serviços disponíveis no android.
+            val service = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            //esconder o teclado
+            //especifico a ação que vai acontecer no focus atual
+            service.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
-//            //mostrar dialog
-//// class builder, uma classe construtora que provê funções, métodos, pra você criar uma propriedade que você queira
-//            val dialog = AlertDialog.Builder(this)
-//            val title = getString(R.string.imc_response, result)
-//            dialog.setTitle("Seu IMC é: $title")
-//            dialog.setMessage(imcResponseId)
-//// opção 1 - dá mais trabalho escrever
-//            dialog.setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
-//                override fun onClick(dialog: DialogInterface?, witch: Int) {
-//
-//                }
-//            })
-//
-//// opção 2 - utilizando lambda
-//            dialog.setPositiveButton(
-//                android.R.string.ok
-//            ) { dialog, witch ->
-//
-//
-//            }
-//            val d = dialog.create()
-//            d.show()
+
 
 
         }
