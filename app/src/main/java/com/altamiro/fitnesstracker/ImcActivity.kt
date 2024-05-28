@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.altamiro.fitnesstracker.model.Calc
 
 class ImcActivity : AppCompatActivity() {
 
@@ -67,6 +68,18 @@ class ImcActivity : AppCompatActivity() {
                 ) { dialog, witch ->
 
                     //aqui vai rodar depois do click
+                }
+                .setNegativeButton(R.string.save){ dialog, which ->
+                    Thread{
+                        val app = application as App
+                        val dao = app.db.calcDao()
+                        dao.insert(Calc(type ="imc", res = result))
+                        runOnUiThread{
+                            Toast.makeText(this@ImcActivity, R.string.calc_saved, Toast.LENGTH_SHORT).show()
+                        }
+
+                    }.start()
+
                 }
                 .create()
                 .show()

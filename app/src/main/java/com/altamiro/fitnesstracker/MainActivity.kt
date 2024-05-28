@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.w3c.dom.Text
 
-class MainActivity : AppCompatActivity(), OnItemClickListener {
+class MainActivity : AppCompatActivity() {
 
     //variavel que inicia depois do tipo linearlayout
     private lateinit var rv_main: RecyclerView
@@ -67,30 +67,60 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         // 2) a onde a recyclerview vai aparecer (tela principal, tela cheia)
         // 3) logica - conectar o xml da celula DENTRO do recyclerView + a sua quantidade de elementos dinamicos
         //jogo dados dentro do adapter
-        val adapter = MainAdapter(mainItems, this)
+
+        //        val adapter = MainAdapter(mainItems, object : OnItemClickListener {
+//            // METODO 2: IMPL VIA OBJETO ANONIMO
+//            override fun onClick(id: Int) {
+//                when(id) {
+//                    1 -> {
+//                        val intent = Intent(this@MainActivity, ImcActivity::class.java)
+//                        startActivity(intent)
+//                    }
+//                    2 -> {
+//                        // abrir uma outra activity
+//                    }
+//                }
+//                Log.i("Teste", "clicou $id!!")
+//            }
+//        })
+        val adapter = MainAdapter(mainItems) { id ->
+            // METODO 3: IMPL VIA FUNCTIONS
+            when (id) {
+                1 -> {
+                    val intent = Intent(this@MainActivity, ImcActivity::class.java)
+                    startActivity(intent)
+                }
+                2 -> {
+                    Log.i("Teste", "clicou $id!!")
+                }
+            }
+            Log.i("Teste", "clicou $id!!")
+        }
+
         rv_main = findViewById(R.id.rv_main)
         rv_main.adapter = adapter
         rv_main.layoutManager = GridLayoutManager(this, 2)
 
 
     }
-
-    override fun onClick(id: Int) {
-        when(id){
-            1 -> {
-                val intent = Intent(this, ImcActivity::class.java)
-                startActivity(intent)
-            }
-            2 -> {
-                //abrir uma outra activity
-            }
-        }
-        Log.i("Teste", "clicou no $id!!!")
-    }
+// METODO 1 : USANDO IMPL INTERFACE VIA ACTIVITY
+//    override fun onClick(id: Int) {
+//        when(id){
+//            1 -> {
+//                val intent = Intent(this, ImcActivity::class.java)
+//                startActivity(intent)
+//            }
+//            2 -> {
+//                //abrir uma outra activity
+//            }
+//        }
+//        Log.i("Teste", "clicou no $id!!!")
+//    }
 
     private inner class MainAdapter(
         private val mainItems: List<MainItem>,
-        private val onItemClickListener: OnItemClickListener
+        private val onItemClickListener: (Int) -> Unit,
+//        private val onItemClickListener: OnItemClickListener
     ) :
         RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
@@ -123,16 +153,20 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 container.setBackgroundColor(item.color)
                 // 3 maneiras de escutar eventos de click usando celular (viewholder)
                 // 1. impl interface
-                container.setOnClickListener{
-                        onItemClickListener.onClick(item.id)
-                }
+//                container.setOnClickListener {
+//                    onItemClickListener.onClick(item.id)
+//                }
+                container.setOnClickListener {
+                    // aqui ele é uma ref. function
+                    onItemClickListener.invoke(item.id)
 
+                    // aqui ele é uma ref. interface
+                    // onItemClickListener.onClick(item.id)
+                }
             }
         }
 
     }
-
-
 
 
 }
